@@ -1,0 +1,27 @@
+name: Telegram Bot Host
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # প্রতি ৬ ঘণ্টা পরপর রিস্টার্ট হবে যাতে সচল থাকে
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/checkout@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Bot
+        run: python main.py
+        timeout-minutes: 350 # ৩৫০ মিনিট পর পর অটো রিস্টার্ট হবে
